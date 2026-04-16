@@ -115,8 +115,9 @@ class EvalConfig:
 
         # Adjust gradient accumulation if custom batch size is provided
         if train_batch_size is not None:
+            effective_device_count = max(1, getattr(self.tr_args, "n_gpu", 0))
             gradient_accumulation_steps = (
-                train_batch_size / (self.tr_args.n_gpu * self.tr_args.per_device_train_batch_size)
+                train_batch_size / (effective_device_count * self.tr_args.per_device_train_batch_size)
             )
             if gradient_accumulation_steps < 1:
                 self.tr_args.per_device_train_batch_size = int(
