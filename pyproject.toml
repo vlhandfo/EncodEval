@@ -19,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "accelerate==0.34.2",
+  "black",
   "configue==5.0.0",
   "datasets==2.21.0",
   "fire==0.6.0",
