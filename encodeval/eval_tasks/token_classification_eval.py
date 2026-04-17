@@ -96,7 +96,7 @@ class TokenClassificationEval(AbstractEval):
         tokenization_fn = self.get_tokenization_fn()
 
         eval_dataset = self.dataset[split].map(tokenization_fn, batched=True, load_from_cache_file=False)
-        subsets = eval_dataset["subset"] if "subset" in eval_dataset.column_names else None
+        subsets = list(eval_dataset["subset"]) if "subset" in eval_dataset.column_names else None
         token_ids = eval_dataset["token_ids"]
 
         eval_dataset = eval_dataset.remove_columns(
