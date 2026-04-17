@@ -49,7 +49,7 @@ class TokenClassificationEval(AbstractEval):
             model=self.model,
             train_dataset=train_dataset,
             eval_dataset=val_dataset,
-            tokenizer=self.tokenizer,
+            processing_class=self.tokenizer,
             data_collator=data_collator,
             callbacks=self.callbacks,
             args=self.tr_args,

@@ -152,6 +152,22 @@ LANG_IDS_DICT_FULL_TO_2 = {
 }
 LANG_IDS_DICT_2_TO_FULL = {v: k for k, v in LANG_IDS_DICT_FULL_TO_2.items()}
 
+DATASETS = {
+    "noReC": None,
+    "scaLA_nb": None,
+    "scaLA_nn": None,
+    "norNE_nb": {
+        "hf_id": "NbAiLab/norne",
+        "config_name": "bokmaal-7",  # Using the version with GPE_LOC/GPE_ORG as LOC/ORG
+    },  
+    "norNE_nn": {
+        "hf_id": "NbAiLab/norne",
+        "config_name": "nynorsk-7",   # Using the version with GPE_LOC/GPE_ORG as LOC/ORG
+    }, 
+    "norQuAD": None,
+    "msmarco_norwegian": None,
+}
+
 
 # ========================
 # Sequence classification
@@ -317,6 +333,13 @@ def math_shepherd() -> DatasetDict:
 
 
 # CUSTOM ADDED
+# TODO: noReC
+def noReC() -> DatasetDict:
+    dataset = ...
+
+    raise NotImplementedError()
+
+
 # TODO: scaLA_nb
 def scaLA_nb() -> DatasetDict:
     dataset = ...
@@ -466,16 +489,29 @@ def ner() -> DatasetDict:
 # CUSTOM ADDED
 # TODO: norNE_nb
 def norNE_nb() -> DatasetDict:
-    dataset = ...
+    dataset = load_dataset(
+        DATASETS["norNE_nb"]["hf_id"],
+        DATASETS["norNE_nb"]["config_name"],
+        trust_remote_code=True,
+    )
+    dataset = dataset.rename_column("ner_tags", "tags")
+    dataset = dataset.rename_column("lang", "subset")
 
-    raise NotImplementedError()
+    return dataset
 
 
 # TODO: norNE_nn
 def norNE_nn() -> DatasetDict:
-    dataset = ...
+    dataset = load_dataset(
+        DATASETS["norNE_nn"]["hf_id"],
+        DATASETS["norNE_nn"]["config_name"],
+        trust_remote_code=True,
+    )
+    dataset = dataset.rename_column("ner_tags", "tags")
+    dataset = dataset.rename_column("lang", "subset")
 
-    raise NotImplementedError()
+
+    return dataset
 
 
 # ==========
@@ -728,6 +764,13 @@ def math_formula_retrieval() -> DatasetDict:
 
 
 # CUSTOM ADDED
+# TODO: norQuAD
+def norQuAD() -> DatasetDict:
+    dataset = ...
+
+    raise NotImplementedError()
+
+
 # TODO: msmarco_norwegian
 def msmarco_norwegian() -> DatasetDict:
     dataset = ...
