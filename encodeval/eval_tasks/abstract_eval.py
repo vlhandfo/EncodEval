@@ -146,11 +146,11 @@ class EvalConfig:
         model_name = os.environ["EVAL_MODEL_PATH"].split("/")[-1]
         output_dir = self.tr_args.output_dir        
         output_subdir = (
-            f"{self.task_type}/{self.dataset_name}/{ft_model_config_dir.replace('/', '_')}/{output_subdir}"
-            if ft_model_config_dir is not None else f"{self.task_type}/{self.dataset_name}/{output_subdir}"
+            f"{self.task_type}_{self.dataset_name}_{ft_model_config_dir.replace('/', '_')}/{output_subdir}"
+            if ft_model_config_dir is not None else f"{self.task_type}_{self.dataset_name}/{output_subdir}"
         )
-        self.tr_args.output_dir = f"{os.environ['EVAL_MODEL_PATH']}/evaluation/weights/{output_subdir}"
-        self.tr_args.logging_dir = f"{os.environ['EVAL_MODEL_PATH']}/evaluation/logs/{output_subdir}"
+        self.tr_args.output_dir = f"{os.environ['EVAL_MODEL_PATH'].replace('/', '_')}/evaluation/weights/{output_subdir}"
+        self.tr_args.logging_dir = f"{os.environ['EVAL_MODEL_PATH'].replace('/', '_')}/evaluation/logs/{output_subdir}"
         self.results_dir = f"{output_dir}/{model_name}/{output_subdir}"
 
         # Clear old logs if logging directory is not empty
