@@ -1,15 +1,15 @@
 eval_config:
-  (): encodeval.eval_tasks.EvalConfig  # Evaluation configuration class for the token classification task
-  task_type: TC  # Type of task (e.g., TC = token classification)
+  (): encodeval.eval_tasks.EvalConfig  # Evaluation configuration class for the sequence classification task
+  task_type: SC  # Type of task (e.g., IR, SC = sequence classification, regression, etc.)
 
   # ===================
   # Model configuration
   # ===================
-  model_class: !ext transformers.AutoModelForTokenClassification  # Model class to instantiate
+  model_class: !ext transformers.AutoModelForSequenceClassification  # Model class to instantiate
   model_kwargs:
     pretrained_model_name_or_path: ${EVAL_MODEL_PATH}  # Path to pretrained or fine-tuned model
-    num_labels: 15  # Number of output labels for classification
-    trust_remote_code: true  # Whether to allow loading custom model code from remote sources
+    num_labels: 3  # Number of output labels for classification
+    trust_remote_code: false  # Whether to allow loading custom model code from remote sources
     attn_implementation: eager  # Specify attention backend (e.g., "eager", "sdpa", "flash")
     dtype: !ext torch.float32  # Desired model weights precision (e.g., float32, float16, bfloat16)
     device: cpu  # Device for model execution (e.g., "cpu", "cuda")
@@ -20,7 +20,7 @@ eval_config:
   tokenizer_class: !ext transformers.AutoTokenizer  # Tokenizer class to use (auto-detects architecture)
   tokenizer_kwargs:
     pretrained_model_name_or_path: ${EVAL_MODEL_PATH}  # Path to pretrained tokenizer (usually same as model)
-    trust_remote_code: true  # Whether to allow loading tokenizer code from remote sources
+    trust_remote_code: false  # Whether to allow loading tokenizer code from remote
 
   # ================================
   # Training arguments configuration
@@ -62,4 +62,4 @@ eval_config:
   # Optional settings
   # =================
   max_length:  # Maximum sequence length for inputs (leave empty to use model default)
-  load_dataset_from_custom_fn: !ext encodeval.datasets.norNE_nb # Custom function to load dataset (e.g., NER)
+  load_dataset_from_custom_fn: !ext encodeval.datasets.noReC  # Custom function to load dataset (e.g., XNLI)

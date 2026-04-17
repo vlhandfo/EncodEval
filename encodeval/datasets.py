@@ -153,17 +153,19 @@ LANG_IDS_DICT_FULL_TO_2 = {
 LANG_IDS_DICT_2_TO_FULL = {v: k for k, v in LANG_IDS_DICT_FULL_TO_2.items()}
 
 DATASETS = {
-    "noReC": None,
-    "scaLA_nb": None,
-    "scaLA_nn": None,
+    "noReC": {
+        "hf_id": "ltg/norec_sentence",
+        "config_name": "ternary"
+    },
+    "scaLA": 'mteb/multilingual-scala-classification',
     "norNE_nb": {
         "hf_id": "NbAiLab/norne",
         "config_name": "bokmaal-7",  # Using the version with GPE_LOC/GPE_ORG as LOC/ORG
-    },  
+    },
     "norNE_nn": {
         "hf_id": "NbAiLab/norne",
-        "config_name": "nynorsk-7",   # Using the version with GPE_LOC/GPE_ORG as LOC/ORG
-    }, 
+        "config_name": "nynorsk-7",  # Using the version with GPE_LOC/GPE_ORG as LOC/ORG
+    },
     "norQuAD": None,
     "msmarco_norwegian": None,
 }
@@ -335,23 +337,27 @@ def math_shepherd() -> DatasetDict:
 # CUSTOM ADDED
 # TODO: noReC
 def noReC() -> DatasetDict:
-    dataset = ...
+    dataset = load_dataset(DATASETS["noReC"]["hf_id"], DATASETS["noReC"]["config_name"])
+    dataset = dataset.rename_columns({"review": "text", "sentiment": "label"})
+    dataset = dataset.map(lambda _: {"subset": "no"})
 
-    raise NotImplementedError()
+    return dataset
 
 
 # TODO: scaLA_nb
 def scaLA_nb() -> DatasetDict:
-    dataset = ...
+    dataset = load_dataset(DATASETS["scaLA"], name="Norwegian_b")
+    dataset = dataset.map(lambda _: {"subset": "nb"})
 
-    raise NotImplementedError()
+    return dataset
 
 
 # TODO: scaLA_nn
 def scaLA_nn() -> DatasetDict:
-    dataset = ...
+    dataset = load_dataset(DATASETS["scaLA"], name="Norwegian_n")
+    dataset = dataset.map(lambda _: {"subset": "nn"})
 
-    raise NotImplementedError()
+    return dataset
 
 
 # ====================
@@ -494,8 +500,7 @@ def norNE_nb() -> DatasetDict:
         DATASETS["norNE_nb"]["config_name"],
         trust_remote_code=True,
     )
-    dataset = dataset.rename_column("ner_tags", "tags")
-    dataset = dataset.rename_column("lang", "subset")
+    dataset = dataset.rename_columns({"ner_tags": "tags", "lang": "subset"})
 
     return dataset
 
@@ -507,9 +512,7 @@ def norNE_nn() -> DatasetDict:
         DATASETS["norNE_nn"]["config_name"],
         trust_remote_code=True,
     )
-    dataset = dataset.rename_column("ner_tags", "tags")
-    dataset = dataset.rename_column("lang", "subset")
-
+    dataset = dataset.rename_columns({"ner_tags": "tags", "lang": "subset"})
 
     return dataset
 
