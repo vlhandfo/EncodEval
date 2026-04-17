@@ -23,6 +23,8 @@ dependencies = [
   "configue==5.0.0",
   "datasets==2.21.0",
   "fire==0.6.0",
+  "ipywidgets",
+  "jupyter",
   "numpy==1.26.3",
   "pandas==2.2.3",
   "protobuf==6.30.1",
