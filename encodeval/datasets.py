@@ -335,7 +335,6 @@ def math_shepherd() -> DatasetDict:
 
 
 # CUSTOM ADDED
-# TODO: noReC
 def noReC() -> DatasetDict:
     dataset = load_dataset(DATASETS["noReC"]["hf_id"], DATASETS["noReC"]["config_name"])
     dataset = dataset.rename_columns({"review": "text", "sentiment": "label"})
@@ -344,7 +343,6 @@ def noReC() -> DatasetDict:
     return dataset
 
 
-# TODO: scaLA_nb
 def scaLA_nb() -> DatasetDict:
     dataset = load_dataset(DATASETS["scaLA"], name="Norwegian_b")
     dataset = dataset.map(lambda _: {"subset": "nb"})
@@ -352,7 +350,6 @@ def scaLA_nb() -> DatasetDict:
     return dataset
 
 
-# TODO: scaLA_nn
 def scaLA_nn() -> DatasetDict:
     dataset = load_dataset(DATASETS["scaLA"], name="Norwegian_n")
     dataset = dataset.map(lambda _: {"subset": "nn"})
@@ -493,7 +490,6 @@ def ner() -> DatasetDict:
 
 
 # CUSTOM ADDED
-# TODO: norNE_nb
 def norNE_nb() -> DatasetDict:
     dataset = load_dataset(
         DATASETS["norNE_nb"]["hf_id"],
@@ -505,7 +501,6 @@ def norNE_nb() -> DatasetDict:
     return dataset
 
 
-# TODO: norNE_nn
 def norNE_nn() -> DatasetDict:
     dataset = load_dataset(
         DATASETS["norNE_nn"]["hf_id"],
