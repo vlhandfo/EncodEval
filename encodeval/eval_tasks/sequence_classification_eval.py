@@ -100,7 +100,7 @@ class SequenceClassificationEval(AbstractEval):
         tokenization_fn = self.get_tokenization_fn()
 
         eval_dataset = self.dataset[split].map(tokenization_fn, batched=True, load_from_cache_file=False)
-        subsets = eval_dataset["subset"] if "subset" in eval_dataset.column_names else None
+        subsets = list(eval_dataset["subset"]) if "subset" in eval_dataset.column_names else None
         eval_dataset = eval_dataset.remove_columns(
             [f for f in eval_dataset.features if f not in ["input_ids", "attention_mask", "label"]]
         )
@@ -129,6 +129,7 @@ class SequenceClassificationEval(AbstractEval):
         if subsets is not None:
             metrics_per_instance["subset"] = subsets
 
+        metrics_per_instance["accuracy"] = torch.tensor(metrics_per_instance["per_instance_metrics"], dtype=torch.float32).mean().item()
         return metrics_per_instance
 
     def get_tokenization_fn(self):
@@ -194,4 +195,7 @@ class SequenceClassificationEval(AbstractEval):
             Dict[str, List[float]]: Dictionary of per-instance accuracy values.
         """
         predictions, labels = eval_pred
-        return {"accuracy": ((predictions.argmax(1) == labels) * 1).tolist()}
+        return {
+            "predictions": predictions.tolist(),
+            "gold_labels": labels.tolist(),
+            "per_instance_metrics": ((predictions.argmax(1) == labels) * 1).tolist()}

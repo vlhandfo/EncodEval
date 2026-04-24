@@ -155,6 +155,7 @@ LANG_IDS_DICT_2_TO_FULL = {v: k for k, v in LANG_IDS_DICT_FULL_TO_2.items()}
 DATASETS = {
     "noReC": {
         "hf_id": "ltg/norec_sentence",
+        # "config_name": "binary"
         "config_name": "ternary"
     },
     "scaLA": 'mteb/multilingual-scala-classification',
